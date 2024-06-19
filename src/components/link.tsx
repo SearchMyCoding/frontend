@@ -1,8 +1,8 @@
 import { ReactNode } from "react";
+import { BaseComponent } from "src/components";
 
-export interface ILink{
+export interface ILink extends BaseComponent{
   link?: string;
-  className?: string;
   children?: ReactNode;
 }
 
