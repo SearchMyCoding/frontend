@@ -1,7 +1,7 @@
 import { DOMAttributes } from "react";
 import { ILink, Link } from "src/components";
 
-type Color = 'blue' | 'red' | 'green' | 'yellow';
+type Color = 'blue' | 'red' | 'green' | 'yellow' | 'gray';
 type TextColor = 'black' | 'white';
 
 export interface ButtonInput extends DOMAttributes<HTMLButtonElement>{
@@ -20,10 +20,10 @@ export function Button({ buttonName, buttonColor = 'blue', textColor = 'white', 
   );
 }
 
-export function LinkButton({link, buttonName, onClick}: ILink & ButtonInput): JSX.Element {
+export function LinkButton({link, buttonName, onClick, buttonColor}: ILink & ButtonInput): JSX.Element {
   return (
     <Link link={link}>
-      <Button buttonName={buttonName} onClick={onClick} />
+      <Button buttonName={buttonName} onClick={onClick} buttonColor={buttonColor}/>
     </Link>
   )
 }
