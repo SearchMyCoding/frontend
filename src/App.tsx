@@ -1,5 +1,3 @@
-// import reactLogo from 'src/assets/react.svg'
-// import viteLogo from 'public/vite.svg'
 import 'src/App.css'
 import { SideBar } from 'src/components';
 import { Router } from 'src/pages';
