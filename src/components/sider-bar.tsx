@@ -1,4 +1,4 @@
-import { ITab, Image, SideBarLinkTab } from 'src/components';
+import { ITab, LinkImage, SideBarLinkTab } from 'src/components';
 
 export interface ISideBar {
   isMenuOpen?: boolean;
@@ -13,14 +13,10 @@ const tabs: ITab[] = [
     link: '/mbti',
     tabName: 'MBTI 검사'
   },
-  {
-    link: '/course',
-    tabName: '무료강좌'
-  }
 ];
 
 export function SideBar({ isMenuOpen = true }: ISideBar) {
-  const className: string = `h-screen w-64 bg-white text-black flex flex-col ${isMenuOpen ? 'block' : 'hidden'}`;
+  const className: string = `h-screen w-64 bg-white text-black border-r-2 border-black flex flex-col ${isMenuOpen ? 'block' : 'hidden'}`;
   
   return (
     <div className={className}>
@@ -32,7 +28,7 @@ export function SideBar({ isMenuOpen = true }: ISideBar) {
         }
       </nav>
       <div className="text-2xl font-bold p-4 text-black">
-        <Image imageSrc='/searchmycoding.jpg' imageHref='/'/>
+        <LinkImage imageSrc='/searchmycoding.jpg' imageHref='/'/>
       </div>
     </div>
   );

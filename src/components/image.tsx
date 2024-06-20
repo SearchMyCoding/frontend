@@ -1,14 +1,26 @@
-import { Link } from "./link";
+import { BaseComponent, Link } from "src/components";
 
-export interface IImage{
+export interface IImage extends BaseComponent{
   imageSrc: string;
-  imageHref: string;
+  imageDes?: string;
 };
 
-export function Image({ imageSrc, imageHref }: IImage){
+export interface ILinkImage extends IImage{
+  imageHref: string;
+}
+
+export function Image({ imageSrc, imageDes, className }: IImage){
+  const tailwindClass: string = className ?? `object-cover`;
+  
+  return (
+    <img src={imageSrc} className={tailwindClass} alt={imageDes}></img>
+  );
+}
+
+export function LinkImage({ imageSrc, imageHref, imageDes }: ILinkImage){
   return (
     <Link link={imageHref}>
-      <img src={imageSrc} className="object-cover" alt="/"></img>
+      <Image imageSrc={imageSrc} imageDes={imageDes} />
     </Link>
   );
 }
