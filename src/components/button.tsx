@@ -1,29 +1,42 @@
 import { DOMAttributes } from "react";
 import { ILink, Link } from "src/components";
 
-type Color = 'blue' | 'red' | 'green' | 'yellow' | 'gray';
+type ButtonColor = 'blue' | 'red' | 'green' | 'yellow' | 'gray';
 type TextColor = 'black' | 'white';
 
-export interface ButtonInput extends DOMAttributes<HTMLButtonElement>{
+export interface IButtonInput extends DOMAttributes<HTMLButtonElement>{
   buttonName: string;
-  buttonColor?: Color;
+  buttonColor?: ButtonColor;
   textColor?: TextColor;
+  fontBold?: boolean;
 };
 
-export function Button({ buttonName, buttonColor = 'blue', textColor = 'white', onClick = undefined }: ButtonInput): JSX.Element {
-  const className: string = `bg-${buttonColor}-500 hover:bg-${buttonColor}-700 text-${textColor} font-bold py-2 px-4 rounded`
+export interface ILinkButton extends ILink, IButtonInput {
+  marginX?: number;
+  marginY?: number;
+}
+
+export function Button({ buttonName, buttonColor = 'blue', textColor = 'white', onClick = undefined, fontBold = true }: IButtonInput): JSX.Element {
+  const button_color: string = `bg-${buttonColor}-500 hover:bg-${buttonColor}-700`;
+  const text_color: string = `text-${textColor}`;
+  const font_bold: string = fontBold ? 'font-bold' : '';
+  const classNameOption: string = `${button_color} ${text_color} ${font_bold} py-4 px-6 rounded`
 
   return (
-    <button type="button" onClick={onClick} className={className}>
+    <button type="button" onClick={onClick} className={classNameOption}>
       { buttonName }
     </button>
   );
 }
 
-export function LinkButton({link, buttonName, onClick, buttonColor}: ILink & ButtonInput): JSX.Element {
+export function LinkButton({ link, buttonName, onClick, buttonColor, marginX = 0, marginY = 3 }: ILinkButton): JSX.Element {
+  const marginOption: string = `mx-${marginX} my-${marginY}`;
+
   return (
-    <Link link={link}>
-      <Button buttonName={buttonName} onClick={onClick} buttonColor={buttonColor}/>
-    </Link>
+    <div className={marginOption}>
+      <Link link={link}>
+        <Button buttonName={buttonName} onClick={onClick} buttonColor={buttonColor}/>
+      </Link>
+    </div>
   )
 }
