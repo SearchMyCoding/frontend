@@ -6,6 +6,10 @@ export interface ISideBar {
 
 const tabs: ITab[] = [
   {
+    link: '/',
+    tabName: 'Home'
+  },
+  {
     link: '/course',
     tabName: '전체강좌'
   },
@@ -23,7 +27,7 @@ export function SideBar({ isMenuOpen = true }: ISideBar) {
       <nav className="flex flex-col mt-4 flex-grow text-black">
         {
           tabs.map(({ link, tabName } : ITab): JSX.Element => {
-            return <SideBarLinkTab link={link} tabName={tabName} />
+            return <SideBarLinkTab key={tabName} link={link} tabName={tabName} />
           })
         }
       </nav>
