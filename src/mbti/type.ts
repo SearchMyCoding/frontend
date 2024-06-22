@@ -42,18 +42,3 @@ export type MbtiParentType = keyof typeof MBTI;
 export type MbtiChildType<T extends MbtiParentType> = keyof typeof MBTI[T];
 export type MbtiOppositeType<T extends MbtiParentType, G extends MbtiChildType<T>> = Exclude<MbtiChildType<T>, G>;
 export type MbtiShortType<T extends MbtiChildType<G>, G extends MbtiParentType> = typeof MBTI[G][T];
-
-export interface IMbtiQuestion{
-  type: MbtiParentType;
-  contents: string;
-}
-
-export interface IMbtiAnswer<T extends MbtiParentType, G extends MbtiChildType<T>>{
-  type: G;
-  contents: string;
-}
-
-export interface IMbtiTest<T extends MbtiParentType, G extends MbtiChildType<T>>{
-  question: IMbtiQuestion;
-  answer: [IMbtiAnswer<T, G>, IMbtiAnswer<T, MbtiOppositeType<T, G>>];
-};
