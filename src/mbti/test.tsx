@@ -1,4 +1,6 @@
 import { createContext } from 'react';
+import { RecoilState, atom } from 'recoil';
+import { recoilPersist } from 'recoil-persist';
 import { MbtiChildType, MbtiOppositeType, MbtiParentType } from 'src/mbti';
 
 export interface IMbtiQuestion{
@@ -17,5 +19,12 @@ export interface IMbtiTest<T extends MbtiParentType, G extends MbtiChildType<T>>
 };
 
 const MbtiTest: IMbtiQuestion[] = [];
+export const MbtiTestStateKey: string = 'MbtiTest';
 
-export const MbtiTestContext = createContext(MbtiTest);
+const { persistAtom } = recoilPersist();
+
+export const MbtiTestState: RecoilState<IMbtiQuestion[]> = atom({
+  key: MbtiTestStateKey,
+  default: MbtiTest,
+  effects_UNSTABLE: [persistAtom],
+})
