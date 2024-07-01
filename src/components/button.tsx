@@ -1,42 +1,50 @@
-import { DOMAttributes } from "react";
+import { ButtonHTMLAttributes, DOMAttributes, DetailedHTMLProps } from "react";
 import { ILink, Link } from "src/components";
+import tw from 'tailwind-styled-components';
+import { TailwindComponent } from "tailwind-styled-components/dist/tailwind";
 
-type ButtonColor = 'blue' | 'red' | 'green' | 'yellow' | 'gray';
-type TextColor = 'black' | 'white';
+export type TwBtn = TailwindComponent<DetailedHTMLProps<ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement>, {} >;
+export type TwBtnMargin = TailwindComponent<DetailedHTMLProps<React.HTMLAttributes<HTMLDivElement>, HTMLDivElement>, {}>;
+
+export const WtBtn: TwBtn = tw.button`
+  text-white
+  font-bold
+`;
+
+export const StyledBtn: TwBtn = tw(WtBtn)`
+  bg-gray-500
+  hover:bg-gray-700
+  py-4
+  px-6
+  rounded
+`;
+
+export const BtnMargin: TwBtnMargin = tw.div`
+  mx-0
+  my-3
+`;
 
 export interface IButtonInput extends DOMAttributes<HTMLButtonElement>{
   buttonName: string;
-  buttonColor?: ButtonColor;
-  textColor?: TextColor;
-  fontBold?: boolean;
 };
 
-export interface ILinkButton extends ILink, IButtonInput {
-  marginX?: number;
-  marginY?: number;
-}
+export interface ILinkButton extends ILink, IButtonInput {}
 
-export function Button({ buttonName, buttonColor = 'blue', textColor = 'white', onClick = undefined, fontBold = true }: IButtonInput): JSX.Element {
-  const button_color: string = `bg-${buttonColor}-500 hover:bg-${buttonColor}-700`;
-  const text_color: string = `text-${textColor}`;
-  const font_bold: string = fontBold ? 'font-bold' : '';
-  const classNameOption: string = `${button_color} ${text_color} ${font_bold} py-4 px-6 rounded`
+export function Button({ buttonName, onClick = undefined }: IButtonInput): JSX.Element {
 
   return (
-    <button type="button" onClick={onClick} className={classNameOption}>
+    <StyledBtn onClick={onClick}>
       { buttonName }
-    </button>
+    </StyledBtn>
   );
 }
 
-export function LinkButton({ link, buttonName, onClick, buttonColor, marginX = 0, marginY = 3 }: ILinkButton): JSX.Element {
-  const marginOption: string = `mx-${marginX} my-${marginY}`;
-
+export function LinkButton({ link, buttonName, onClick}: ILinkButton): JSX.Element {
   return (
-    <div className={marginOption}>
+    <BtnMargin>
       <Link link={link}>
-        <Button buttonName={buttonName} onClick={onClick} buttonColor={buttonColor}/>
+        <Button buttonName={buttonName} onClick={onClick}/>
       </Link>
-    </div>
+    </BtnMargin>
   )
 }
