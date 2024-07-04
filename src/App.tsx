@@ -1,17 +1,20 @@
-import 'src/App.css'
-import { SideBar } from 'src/components';
+import { BrowserRouter } from 'react-router-dom';
+import { RecoilRoot } from 'recoil';
+import { FlexLayout, FlexWithSeparateLine, SideBar } from 'src/components';
 import { Router } from 'src/pages';
 
 function App() {
   return (
-    <>
-    <div className="flex">
-      <SideBar />
-      <div className="flex-1 p-10 text-black">
-        <Router />
-      </div>
-    </div>
-    </>
+  <RecoilRoot>
+    <BrowserRouter>
+      <FlexLayout>
+        <SideBar />
+        <FlexWithSeparateLine>
+          <Router />
+        </FlexWithSeparateLine>
+      </FlexLayout>
+    </BrowserRouter>
+  </RecoilRoot>
   )
 }
 

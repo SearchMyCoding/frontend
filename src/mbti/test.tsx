@@ -1,4 +1,3 @@
-import { createContext } from 'react';
 import { RecoilState, atom } from 'recoil';
 import { recoilPersist } from 'recoil-persist';
 import { MbtiChildType, MbtiOppositeType, MbtiParentType } from 'src/mbti';
