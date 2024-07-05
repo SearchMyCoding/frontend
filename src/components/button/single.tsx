@@ -1,9 +1,9 @@
-import { IMainButtonProps, Link, MfBtn, RGBtn } from "src/components";
+import { ISingleButtonProps, Link, MfBtn, RGBtn } from "src/components";
 
 /**
  * Single Linked Button
  */
-export function SLbtn({ link, buttonName, onClick = undefined }: IMainButtonProps): JSX.Element {
+export function SingleBtn({ link, buttonName, onClick = undefined }: ISingleButtonProps): JSX.Element {
   return (
     <MfBtn>
       <Link link={link}>
