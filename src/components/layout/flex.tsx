@@ -1,8 +1,5 @@
-import { DetailedHTMLProps, HTMLAttributes } from 'react';
 import tw from 'tailwind-styled-components';
-import { TailwindComponent } from 'tailwind-styled-components/dist/tailwind';
-
-export type Flex = TailwindComponent<DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement>, {}>;
+import { Flex } from 'src/components';
 
 export const FlexLayout: Flex = tw.div`
   flex
@@ -13,3 +10,12 @@ export const FlexWithSeparateLine: Flex = tw.div`
   p-10
   text-black
 `;
+
+export const FlexTestTemplate: Flex = tw(FlexLayout)`
+  flex-col
+  justify-around
+  mx-8
+  my-4
+`
+
+export const FlexTestQuestionTemplate: Flex = tw.div``
