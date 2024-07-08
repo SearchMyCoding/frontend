@@ -11,6 +11,6 @@ export const GridLayout: Grid = tw.div`
 export const TakeOrNotGridTemplate: Grid = tw.div`
   grid 
   grid-cols-2
-  gap-4 
-  py-4
+  gap-12
+  py-8
 `
