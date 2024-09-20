@@ -1,0 +1,1 @@
+export * from 'src/pkg/type/mbti/pair';

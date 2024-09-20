@@ -1,34 +1,33 @@
 import { RecoilState, atom } from "recoil";
-import { MbtiParentType } from "src/mbti";
 import { recoilPersist } from 'recoil-persist';
 
-export interface IATTENTION_FOCUS {
+export interface ATTENTION_FOCUS_RESULT {
   EXTRAVERTED: number;
   INTROVERTED: number;
 };
 
-export interface IPERCEPTION_FUNCTION {
+export interface PERCEPTION_FUNCTION_RESULT {
   SENSING: number;
   INTUITION: number;
 };
 
-export interface IJUDGMENT_FUNCTION {
+export interface JUDGMENT_FUNCTION_RESULT {
   THINKING: number;
   FEELING: number;
 };
-export interface ILIFESTYLE {
+export interface LIFESTYLE_RESULT {
   JUDGING: number;
   PERCEIVING: number;
 };
 
-export interface ITestResult {
-  ATTENTION_FOCUS: IATTENTION_FOCUS;
-  PERCEPTION_FUNCTION: IPERCEPTION_FUNCTION;
-  JUDGMENT_FUNCTION: IJUDGMENT_FUNCTION;
-  LIFESTYLE: ILIFESTYLE; 
+export interface TestResult {
+  ATTENTION_FOCUS: ATTENTION_FOCUS_RESULT;
+  PERCEPTION_FUNCTION: PERCEPTION_FUNCTION_RESULT;
+  JUDGMENT_FUNCTION: JUDGMENT_FUNCTION_RESULT;
+  LIFESTYLE: LIFESTYLE_RESULT; 
 }
 
-const MbtiTestResult: ITestResult = {
+const DefaultMbtiTestResult: TestResult = {
   ATTENTION_FOCUS: {
     EXTRAVERTED: 0,
     INTROVERTED: 0,
@@ -48,12 +47,11 @@ const MbtiTestResult: ITestResult = {
 };
 
 export const MbtiTestResultStateKey: string = 'MbtiTestResult';
-export const MbtiMainType: MbtiParentType[] = Object.keys(MbtiTestResult) as MbtiParentType[];
 
 const { persistAtom } = recoilPersist();
 
-export const MbtiTestResultState: RecoilState<ITestResult> = atom({
+export const MbtiTestResultState: RecoilState<TestResult> = atom({
   key: MbtiTestResultStateKey,
-  default: MbtiTestResult,
+  default: DefaultMbtiTestResult,
   effects_UNSTABLE: [persistAtom],
 })
