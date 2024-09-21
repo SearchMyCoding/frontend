@@ -1,17 +1,17 @@
 import { ATTENTION_FOCUS, ATTENTION_FOCUS_RESULT, JUDGMENT_FUNCTION, JUDGMENT_FUNCTION_RESULT, LIFESTYLE, LIFESTYLE_RESULT, MBTI_SINGLE_TEMPLATE_TYPE, MBTI_TYPE, PERCEPTION_FUNCTION, PERCEPTION_FUNCTION_RESULT, TestResult } from 'src/pkg';
 
-interface Result {
+interface MbtiTest {
   get Result(): TestResult;
   get Mbti(): MBTI_TYPE;
   Add(type: MBTI_SINGLE_TEMPLATE_TYPE): void;
   Reset(): void;
 }
 
-export class Mbti implements Result{
-  public static Key: string = "MbtiTestResult";
+export class Result implements MbtiTest{
+  public static readonly Key: string = "MbtiTestResult";
 
-  public static New(): Mbti{
-    return new Mbti();
+  public static New(): MbtiTest{
+    return new Result();
   }
 
   private result: TestResult;
