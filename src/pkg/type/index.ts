@@ -1,1 +1,1 @@
-export * from 'src/pkg/type/mbti/pair';
+export * from 'src/pkg/type/mbti';

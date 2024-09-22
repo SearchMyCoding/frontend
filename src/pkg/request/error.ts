@@ -1,11 +1,11 @@
 // ErrName
-export const ErrNameUnsuppotedMethod: string = "ERR/UNSUPPORTEDMETHOD";
+export const ErrorNameUnsuppotedMethod: string = "ERROR/UNSUPPORTED-METHOD";
 
 // ErrMessage
-export const ErrMessageUnsuppotedMethod: string = "Method is an unsupported method";
+export const ErrorMessageUnsuppotedMethod: string = "Method is an unsupported method";
 
 // Error
-export const ErrUnsuppotedMethod: Error = {
-  name: ErrNameUnsuppotedMethod,
-  message: ErrMessageUnsuppotedMethod
+export const ErrorUnsuppotedMethod: Error = {
+  name: ErrorNameUnsuppotedMethod,
+  message: ErrorMessageUnsuppotedMethod
 };
