@@ -1,17 +1,26 @@
 import { HttpMethod, MBTI_SINGLE_TEMPLATE_TYPE, MBTI_TEST_TYPE, request } from "src/pkg";
 import { isAbsolute } from 'path';
 import { GetDelayDuration, Sleep } from "src/pkg/utils";
+import { TestResponseDto } from "src/pkg/request/dto";
+
+interface TestListInput {
+  path?: string;
+};
 
 interface MbtiTest {
   get Path(): string;
   get Length(): number;
+  get Current(): MBTI_TEST_TYPE<MBTI_SINGLE_TEMPLATE_TYPE>;
   Get(sequence: number): MBTI_TEST_TYPE<MBTI_SINGLE_TEMPLATE_TYPE>;
   Reset(): void;
-}
+  Next(): void;
+  Revert(): void;
+};
 
 export class TestList implements MbtiTest {
   private static maxAttempt: number = 5;
   private static defaultDuration: number = 100; // 100ms
+  private static defaultPath: string = "/api";
 
   public static readonly Key: string = "MbtiTest";
   public static readonly ErrorNameFailedFetchMbtiTestList: string = "ERROR/FAILED-FETCH-MBTI-TEST-LIST";
@@ -23,14 +32,18 @@ export class TestList implements MbtiTest {
 
   private list: MBTI_TEST_TYPE<MBTI_SINGLE_TEMPLATE_TYPE>[];
   private path: string;
+  private current: number;
 
-  public static New(): MbtiTest {
-    return new TestList();
+  public static New(option? : TestListInput): MbtiTest {
+    const path: string = option?.path ?? TestList.defaultPath;
+    return new TestList({ path });
   }
   
-  constructor() {
+  constructor({ path } : TestListInput) {
+    this.path = path ?? "/";
     this.list = Array.from({ length: 0 });
     this.fetch();
+    this.current = 0;
   }
 
   set Path(path: string) {
@@ -48,19 +61,26 @@ export class TestList implements MbtiTest {
     return this.list.length;
   }
 
+  get Current():  MBTI_TEST_TYPE<MBTI_SINGLE_TEMPLATE_TYPE> {
+    return this.list[this.current];
+  }
+
   private async fetch(): Promise<void>{
     let attempt: number = 0;
     let isRightLength: boolean = false;
     do {
-      let testList: MBTI_TEST_TYPE<MBTI_SINGLE_TEMPLATE_TYPE>[] = await request<MBTI_TEST_TYPE<MBTI_SINGLE_TEMPLATE_TYPE>[]>(this.path, HttpMethod.GET);
-      
-      if(testList.length !== 0 && testList.length % 4 === 0) {
-        isRightLength = true;
-        break;
+      try {
+        let testList: TestResponseDto<MBTI_SINGLE_TEMPLATE_TYPE>[] = await request<MBTI_TEST_TYPE<MBTI_SINGLE_TEMPLATE_TYPE>[]>(this.path, HttpMethod.GET);
+        
+        if(testList.length !== 0 && testList.length % 4 === 0) {
+          isRightLength = true;
+          break;
+        }
       }
-
-      const delayDuration: number = GetDelayDuration(attempt) * TestList.defaultDuration;
-      await Sleep(delayDuration);
+      catch(err){
+        const delayDuration: number = GetDelayDuration(attempt) * TestList.defaultDuration;
+        await Sleep(delayDuration);
+      }
     }while(attempt < TestList.maxAttempt)
 
     if(!isRightLength){
@@ -74,5 +94,16 @@ export class TestList implements MbtiTest {
 
   public async Reset(): Promise<void>{
     await this.fetch();
+    this.current = 0;
+  }
+
+  public Next(): void {
+    this.current++;
+  }
+
+  public Revert(): void {
+    if(this.current > 0) {
+      this.current--;
+    }
   }
 }
