@@ -1,8 +1,8 @@
 import { RecoilState, atom } from 'recoil';
 import { recoilPersist } from 'recoil-persist';
-import { Invert, MBTI_SINGLE_TEMPLATE_TYPE, RESULT, UNKOWN } from 'src/pkg';
+import { Invert, MBTI_SINGLE_TEMPLATE_TYPE, RESULT, UNKOWN, UNKOWN_TYPE } from 'src/pkg';
 
-export type QUESTION_TYPE = keyof typeof RESULT;
+export type QUESTION_TYPE = keyof typeof RESULT | UNKOWN_TYPE;
 export type ANSWER_TYPE<T extends MBTI_SINGLE_TEMPLATE_TYPE> = T;
 export type QUESTION_SENDER_TYPE = {
   type: QUESTION_TYPE;
@@ -18,7 +18,7 @@ export type CHOICE_TYPE<T extends MBTI_SINGLE_TEMPLATE_TYPE> = {
 export type MBTI_TEST_TYPE<T extends MBTI_SINGLE_TEMPLATE_TYPE> = {
   testImage: string;
   question: string;
-  questionType?: QUESTION_TYPE;
+  questionType: QUESTION_TYPE;
   choices: MBTI_CHOICE_TYPE<T>;
 };
 
@@ -32,6 +32,7 @@ const prepareTest: string = "준비중입니다.";
 export const defaultTest: MBTI_TEST_TYPE<MBTI_SINGLE_TEMPLATE_TYPE> = {
   testImage: "",
   question: prepareTest,
+  questionType: UNKOWN.UNKOWN,
   choices: [
     {
       text: prepareTest,
