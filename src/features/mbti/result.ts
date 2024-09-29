@@ -1,20 +1,27 @@
-import { ATTENTION_FOCUS, ATTENTION_FOCUS_RESULT, JUDGMENT_FUNCTION, JUDGMENT_FUNCTION_RESULT, LIFESTYLE, LIFESTYLE_RESULT, MBTI_SINGLE_TEMPLATE_TYPE, MBTI_TYPE, PERCEPTION_FUNCTION, PERCEPTION_FUNCTION_RESULT, TestResult } from 'src/pkg';
+import { ATTENTION_FOCUS, ATTENTION_FOCUS_RESULT, JUDGMENT_FUNCTION, JUDGMENT_FUNCTION_RESULT, LIFESTYLE, LIFESTYLE_RESULT, MBTI_SINGLE_TEMPLATE_TYPE, MBTI_CODE_TYPE, PERCEPTION_FUNCTION, PERCEPTION_FUNCTION_RESULT, MBTI_RESULT } from 'src/pkg';
+
+interface MbtiInfo {
+  MbtiCode: MBTI_CODE_TYPE;
+  ImageSource: string;
+}
 
 interface MbtiTest {
-  get Result(): TestResult;
-  get Mbti(): MBTI_TYPE;
+  get MbtiResult(): MBTI_RESULT;
+  get MbtiCode(): MBTI_CODE_TYPE;
   Add(type: MBTI_SINGLE_TEMPLATE_TYPE): void;
   Reset(): void;
+  MbtiInfo(): MbtiInfo;
 }
 
 export class Result implements MbtiTest{
   public static readonly Key: string = "MbtiTestResult";
-
   public static New(): MbtiTest{
     return new Result();
   }
 
-  private result: TestResult;
+  private static readonly imagePathPrefix: string = "";
+
+  private result: MBTI_RESULT;
   private attentionFocusResult: ATTENTION_FOCUS_RESULT;
   private perceptionFunctionResult: PERCEPTION_FUNCTION_RESULT;
   private judgmentFunctionResult: JUDGMENT_FUNCTION_RESULT;
@@ -31,11 +38,11 @@ export class Result implements MbtiTest{
     };
   }
 
-  get Result(): TestResult {
+  get MbtiResult(): MBTI_RESULT {
     return this.result;
   }
 
-  get Mbti(): MBTI_TYPE{
+  get MbtiCode(): MBTI_CODE_TYPE{
     const { EXTRAVERTED, INTROVERTED } = this.attentionFocusResult;
     const { SENSING, INTUITION } = this.perceptionFunctionResult;
     const { THINKING, FEELING } = this.judgmentFunctionResult;
@@ -59,7 +66,7 @@ export class Result implements MbtiTest{
     result += THINKING > FEELING ? JUDGMENT_FUNCTION.THINKING : JUDGMENT_FUNCTION.FEELING;
     result += JUDGING > PERCEIVING ? LIFESTYLE.JUDGING : LIFESTYLE.PERCEIVING;
 
-    return result as MBTI_TYPE;
+    return result as MBTI_CODE_TYPE;
   }
 
   public Add(type: MBTI_SINGLE_TEMPLATE_TYPE) {
@@ -112,6 +119,17 @@ export class Result implements MbtiTest{
     this.lifestyleResult = {
       JUDGING: 0,
       PERCEIVING: 0
+    };
+  }
+
+
+  MbtiInfo(): MbtiInfo {
+    const mbtiCode: MBTI_CODE_TYPE = this.MbtiCode;
+    const imageSource: string = `${Result.imagePathPrefix}/${mbtiCode}`;
+
+    return {
+      MbtiCode: mbtiCode,
+      ImageSource: imageSource
     };
   }
 }

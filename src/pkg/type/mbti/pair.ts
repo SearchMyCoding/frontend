@@ -12,4 +12,4 @@ const OPPOSITES_MAP = {
   [UNKOWN.UNKOWN]: UNKOWN.UNKOWN
 } as const;
 
-export type Invert<T extends MBTI_SINGLE_TEMPLATE_TYPE> = (typeof OPPOSITES_MAP)[T];
+export type INVERT_TYPE<T extends MBTI_SINGLE_TEMPLATE_TYPE> = (typeof OPPOSITES_MAP)[T];

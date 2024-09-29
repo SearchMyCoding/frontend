@@ -1,6 +1,6 @@
 import { RecoilState, atom } from 'recoil';
 import { recoilPersist } from 'recoil-persist';
-import { Invert, MBTI_SINGLE_TEMPLATE_TYPE, RESULT, UNKOWN, UNKOWN_TYPE } from 'src/pkg';
+import { INVERT_TYPE, MBTI_SINGLE_TEMPLATE_TYPE, RESULT, UNKOWN, UNKOWN_TYPE } from 'src/pkg';
 
 export type QUESTION_TYPE = keyof typeof RESULT | UNKOWN_TYPE;
 export type ANSWER_TYPE<T extends MBTI_SINGLE_TEMPLATE_TYPE> = T;
@@ -22,7 +22,7 @@ export type MBTI_TEST_TYPE<T extends MBTI_SINGLE_TEMPLATE_TYPE> = {
   choices: MBTI_CHOICE_TYPE<T>;
 };
 
-export type MBTI_CHOICE_TYPE<T extends MBTI_SINGLE_TEMPLATE_TYPE> = [CHOICE_TYPE<T>, CHOICE_TYPE<Invert<T>>];
+export type MBTI_CHOICE_TYPE<T extends MBTI_SINGLE_TEMPLATE_TYPE> = [CHOICE_TYPE<T>, CHOICE_TYPE<INVERT_TYPE<T>>];
 
 const MbtiTest: MBTI_TEST_TYPE<MBTI_SINGLE_TEMPLATE_TYPE>[] = [];
 export const MbtiTestStateKey: string = 'MbtiTest';
