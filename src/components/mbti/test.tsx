@@ -6,7 +6,7 @@ import { FlexTestLayout, QuestionTemplate, TwoChoiceTemplate } from "src/compone
 export function MbitTestTemplate(): JSX.Element{
   const [test, setTest] = useRecoilState(MbtiTestState);
   const { testImage, question, questionType, choices } = test.Current;
-  const questionTitle: string = `Test of ${questionType}`;
+  const title: string = `Test of ${questionType}`;
 
   useEffect(() => {
     const fetchData = async () => {
@@ -21,7 +21,7 @@ export function MbitTestTemplate(): JSX.Element{
   }, [setTest]);
 
   return (
-    <FlexTestLayout title={questionTitle} typeof={questionType}>
+    <FlexTestLayout title={title} typeof={questionType}>
       <QuestionTemplate questionImage={testImage} questionContext={question}></QuestionTemplate>
       <TwoChoiceTemplate choices={choices} />
     </FlexTestLayout>
