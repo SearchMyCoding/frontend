@@ -1,4 +1,4 @@
-import { HttpMethod, MBTI_SINGLE_TEMPLATE_TYPE, MBTI_TEST_TYPE, request } from "src/pkg";
+import { HttpMethod, MBTI_SINGLE_CODE_TYPE, MBTI_TEST_TYPE, request } from "src/pkg";
 import { isAbsolute } from 'path';
 import { GetDelayDuration, Sleep } from "src/pkg/utils";
 import { TestResponseDto } from "src/pkg/request/dto";
@@ -10,8 +10,8 @@ interface TestListInput {
 interface MbtiTest {
   get Path(): string;
   get Length(): number;
-  get Current(): MBTI_TEST_TYPE<MBTI_SINGLE_TEMPLATE_TYPE>;
-  Get(sequence: number): MBTI_TEST_TYPE<MBTI_SINGLE_TEMPLATE_TYPE>;
+  get Current(): MBTI_TEST_TYPE<MBTI_SINGLE_CODE_TYPE>;
+  Get(sequence: number): MBTI_TEST_TYPE<MBTI_SINGLE_CODE_TYPE>;
   Reset(): void;
   Next(): void;
   Revert(): void;
@@ -30,7 +30,7 @@ export class TestList implements MbtiTest {
     message: TestList.ErrorMessageFailedFetchMbtiTestList
   };
 
-  private list: MBTI_TEST_TYPE<MBTI_SINGLE_TEMPLATE_TYPE>[];
+  private list: MBTI_TEST_TYPE<MBTI_SINGLE_CODE_TYPE>[];
   private path: string;
   private current: number;
 
@@ -61,7 +61,7 @@ export class TestList implements MbtiTest {
     return this.list.length;
   }
 
-  get Current():  MBTI_TEST_TYPE<MBTI_SINGLE_TEMPLATE_TYPE> {
+  get Current():  MBTI_TEST_TYPE<MBTI_SINGLE_CODE_TYPE> {
     return this.list[this.current];
   }
 
@@ -70,7 +70,7 @@ export class TestList implements MbtiTest {
     let isRightLength: boolean = false;
     do {
       try {
-        let testList: TestResponseDto<MBTI_SINGLE_TEMPLATE_TYPE>[] = await request<MBTI_TEST_TYPE<MBTI_SINGLE_TEMPLATE_TYPE>[]>(this.path, HttpMethod.GET);
+        let testList: TestResponseDto<MBTI_SINGLE_CODE_TYPE>[] = await request<MBTI_TEST_TYPE<MBTI_SINGLE_CODE_TYPE>[]>(this.path, HttpMethod.GET);
         
         if(testList.length !== 0 && testList.length % 4 === 0) {
           isRightLength = true;
@@ -88,7 +88,7 @@ export class TestList implements MbtiTest {
     }
   }
 
-  public Get(sequence: number): MBTI_TEST_TYPE<MBTI_SINGLE_TEMPLATE_TYPE> {
+  public Get(sequence: number): MBTI_TEST_TYPE<MBTI_SINGLE_CODE_TYPE> {
     return this.list[sequence];
   }
 

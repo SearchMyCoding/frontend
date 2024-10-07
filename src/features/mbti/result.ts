@@ -1,14 +1,15 @@
-import { ATTENTION_FOCUS, ATTENTION_FOCUS_RESULT, JUDGMENT_FUNCTION, JUDGMENT_FUNCTION_RESULT, LIFESTYLE, LIFESTYLE_RESULT, MBTI_SINGLE_TEMPLATE_TYPE, MBTI_CODE_TYPE, PERCEPTION_FUNCTION, PERCEPTION_FUNCTION_RESULT, MBTI_RESULT } from 'src/pkg';
+import { ATTENTION_FOCUS, ATTENTION_FOCUS_RESULT, JUDGMENT_FUNCTION, JUDGMENT_FUNCTION_RESULT, LIFESTYLE, LIFESTYLE_RESULT, MBTI_SINGLE_CODE_TYPE, MBTI_CODE_TYPE, PERCEPTION_FUNCTION, PERCEPTION_FUNCTION_RESULT, MBTI_RESULT, UNKOWN_TYPE, UNKOWN } from 'src/pkg';
 
 interface MbtiInfo {
-  MbtiCode: MBTI_CODE_TYPE;
-  ImageSource: string;
+  MbtiCode: MBTI_CODE_TYPE | UNKOWN_TYPE;
+  ImageSource?: string;
+  ErrorMessage?: any;
 }
 
 interface MbtiTest {
   get MbtiResult(): MBTI_RESULT;
   get MbtiCode(): MBTI_CODE_TYPE;
-  Add(type: MBTI_SINGLE_TEMPLATE_TYPE): void;
+  Add(type: MBTI_SINGLE_CODE_TYPE): void;
   Reset(): void;
   MbtiInfo(): MbtiInfo;
 }
@@ -69,7 +70,7 @@ export class Result implements MbtiTest{
     return result as MBTI_CODE_TYPE;
   }
 
-  public Add(type: MBTI_SINGLE_TEMPLATE_TYPE) {
+  public Add(type: MBTI_SINGLE_CODE_TYPE) {
     switch(type) {
       case ATTENTION_FOCUS.EXTRAVERTED:
         this.attentionFocusResult.EXTRAVERTED++;
@@ -124,12 +125,20 @@ export class Result implements MbtiTest{
 
 
   MbtiInfo(): MbtiInfo {
-    const mbtiCode: MBTI_CODE_TYPE = this.MbtiCode;
-    const imageSource: string = `${Result.imagePathPrefix}/${mbtiCode}`;
-
-    return {
-      MbtiCode: mbtiCode,
-      ImageSource: imageSource
-    };
+    try {
+      const mbtiCode: MBTI_CODE_TYPE = this.MbtiCode;
+      const imageSource: string = `${Result.imagePathPrefix}/${mbtiCode}`;
+      
+      return {
+        MbtiCode: mbtiCode,
+        ImageSource: imageSource
+      };
+    }
+    catch(err) {
+      return {
+        MbtiCode: UNKOWN.UNKOWN,
+        ErrorMessage: err
+      };
+    }
   }
 }
