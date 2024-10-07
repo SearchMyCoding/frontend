@@ -1,6 +1,4 @@
-import { HttpMethod, MBTI_SINGLE_CODE_TYPE, MBTI_TEST_TYPE, request } from "src/pkg";
-import { isAbsolute } from 'path';
-import { GetDelayDuration, Sleep } from "src/pkg/utils";
+import { GetDelayDuration, HttpMethod, IsAbsolute, MBTI_SINGLE_CODE_TYPE, MBTI_TEST_TYPE, request, Sleep } from "src/pkg";
 import { TestResponseDto } from "src/pkg/request/dto";
 
 interface TestListInput {
@@ -47,7 +45,7 @@ export class TestList implements MbtiTest {
   }
 
   set Path(path: string) {
-    if(!isAbsolute(path) && !URL.canParse(path)){
+    if(!IsAbsolute(path) && !URL.canParse(path)){
       throw new Error("Invalid path");
     }
     this.path = path;
